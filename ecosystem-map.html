@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SJ4TS9RN5M"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-SJ4TS9RN5M');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SJ4TS9RN5M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SJ4TS9RN5M');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Singapore Embedded Finance Ecosystem Map | SMU Executive Development</title>
@@ -57,6 +57,27 @@
             color: var(--slate);
             font-size: 1.1rem;
             margin-bottom: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--slate);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--gray-100);
+            border-top: 4px solid var(--amber);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .stats {
@@ -193,6 +214,10 @@
             color: var(--slate);
             font-size: 0.95rem;
             margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .provider-tags {
@@ -350,59 +375,73 @@
             background: #006399;
             transform: translateY(-2px);
         }
+
+        .error-message {
+            background: #fee;
+            border: 2px solid #fcc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #c00;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🗺️ Singapore Embedded Finance Ecosystem Map</h1>
-        <p class="subtitle">Comprehensive directory of 100+ fintech providers for embedded finance services</p>
+        <p class="subtitle">API-first fintech providers for seamless partnership and integration</p>
         
-        <div class="stats">
-            <div class="stat-item">
-                <span class="stat-number">100+</span>
-                <span>Providers</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">7</span>
-                <span>Categories</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">520</span>
-                <span>Total Singapore Fintech</span>
-            </div>
+        <div id="loadingIndicator" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading provider database...</p>
         </div>
 
-        <div class="search-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="Search providers by name, service, or technology...">
-        </div>
+        <div id="mainContent" style="display: none;">
+            <div class="stats" id="stats">
+                <div class="stat-item">
+                    <span class="stat-number">200+</span>
+                    <span>API-Ready Providers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">7</span>
+                    <span>Core Categories</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">🔗</span>
+                    <span>Partnership-Ready</span>
+                </div>
+            </div>
 
-        <div class="filter-buttons">
-            <button class="filter-btn active" onclick="filterByCategory('all')">All Providers</button>
-            <button class="filter-btn" onclick="filterByCategory('payments')">Payments (20)</button>
-            <button class="filter-btn" onclick="filterByCategory('lending')">Lending (12)</button>
-            <button class="filter-btn" onclick="filterByCategory('insurance')">Insurance (10)</button>
-            <button class="filter-btn" onclick="filterByCategory('wealth')">Wealth (15)</button>
-            <button class="filter-btn" onclick="filterByCategory('infrastructure')">Infrastructure (20)</button>
-            <button class="filter-btn" onclick="filterByCategory('digital-banks')">Digital Banks (5)</button>
-            <button class="filter-btn" onclick="filterByCategory('bnpl')">BNPL (8)</button>
-        </div>
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search providers by name, service, or technology...">
+            </div>
 
-        <!-- Provider sections will be generated here -->
-        <div id="providerSections"></div>
+            <div class="filter-buttons" id="filterButtons"></div>
 
-        <div class="footer">
-            <div class="footer-brand">© 2026 Attribute Data Pte Ltd | Attribute Research</div>
-            <p style="margin: 10px 0;">For use in SMU Executive Development Programme 2026</p>
-            
-            <a href="https://www.linkedin.com/company/attribute-data/" target="_blank" class="linkedin-share">
-                🔗 Follow Attribute Data on LinkedIn
-            </a>
-            
-            <a href="#" class="linkedin-share" onclick="shareToLinkedIn(); return false;">📤 Share on LinkedIn</a>
+            <div id="providerSections"></div>
+
+            <div class="footer">
+                <div class="footer-brand">© 2026 Attribute Data Pte Ltd | Attribute Research</div>
+                <p style="margin: 10px 0;">For use in SMU Executive Development Programme 2026</p>
+                
+                <div style="margin: 30px 0; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://joannateo.github.io/SMU-ExD-Embedded-Finance/index.html" target="_blank" class="linkedin-share" style="background: var(--midnight);">
+                        🔧 Build Your Stack
+                    </a>
+                    <a href="https://joannateo.github.io/SMU-ExD-Embedded-Finance/Singapore-Fintech-Ecosystem-Map.avif" download="Singapore-Fintech-Ecosystem-Map.avif" class="linkedin-share" style="background: var(--amber); color: var(--midnight);">
+                        📥 Download Ecosystem Map
+                    </a>
+                </div>
+                
+                <a href="https://www.linkedin.com/company/attribute-data/" target="_blank" class="linkedin-share">
+                    🔗 Follow Attribute Data on LinkedIn
+                </a>
+                
+                <a href="#" class="linkedin-share" onclick="shareToLinkedIn(); return false;">📤 Share on LinkedIn</a>
+            </div>
         </div>
     </div>
 
-    <!-- Suggest Provider Button -->
     <button class="suggest-provider-btn" onclick="showSuggestForm()">✨ Suggest a Provider</button>
 
     <!-- Provider Detail Modal -->
@@ -440,12 +479,13 @@
                     <label style="display: block; margin-bottom: 5px; font-weight: 600;">Category</label>
                     <select id="providerCategory" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-100); border-radius: 8px;">
                         <option value="">Select category...</option>
+                        <option value="digital-banks">Digital Banks</option>
                         <option value="payments">Payments</option>
+                        <option value="bnpl">BNPL</option>
                         <option value="lending">Lending</option>
                         <option value="insurance">Insurance</option>
-                        <option value="wealth">Wealth Management</option>
-                        <option value="infrastructure">Infrastructure/RegTech</option>
-                        <option value="bnpl">BNPL</option>
+                        <option value="wealth">Wealth</option>
+                        <option value="infrastructure">Infrastructure</option>
                         <option value="other">Other</option>
                     </select>
                 </div>
@@ -474,1258 +514,120 @@
         </div>
     </div>
 
-    <>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzF12tu-UfTX9oy5c1CqKqwSYjK4GxfOUKcc8Bp99p2UvpNFXL5U42sPBjvMPUM5p4/exec';
-        const SITE_URL = 'https://joannateo.github.io/SMU-ExD-Embedded-Finance/ecosystem-mapper.html';
-
-        // COMPREHENSIVE PROVIDER DATABASE - 100+ PROVIDERS
-        const providerDatabase = {
-            "Digital Banks": {
-                icon: "🏦",
-                providers: [
-                    {
-                        name: "Trust Bank",
-                        category: "digital-banks",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Singapore's largest digital bank with 1 million users, backed by Standard Chartered and FairPrice Group",
-                        services: ["Savings accounts", "Debit cards", "Credit cards", "Personal loans", "Investment products"],
-                        target: "B2C Retail",
-                        integration_timeline: "N/A - Full bank license",
-                        partnership_model: "Not available for embedded services",
-                        mas_license: "Full Bank License",
-                        website: "https://www.trust.sg",
-                        email: "hello@trust.sg"
-                    },
-                    {
-                        name: "GXS Bank",
-                        category: "digital-banks",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Digital bank backed by Grab and Singtel, focused on underserved segments",
-                        services: ["Savings accounts", "Business accounts", "SME lending", "Investment products"],
-                        target: "B2C + SME",
-                        integration_timeline: "N/A - Full bank license",
-                        partnership_model: "Not available for embedded services",
-                        mas_license: "Full Digital Bank License",
-                        website: "https://www.gxs.com.sg",
-                        email: "support@gxs.com.sg"
-                    },
-                    {
-                        name: "MariBank",
-                        category: "digital-banks",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Digital bank by Sea Limited, offering remittance and investment services",
-                        services: ["Savings accounts", "Remittance", "Investment products", "SME banking"],
-                        target: "B2C + SME",
-                        integration_timeline: "N/A - Full bank license",
-                        partnership_model: "Not available for embedded services",
-                        mas_license: "Full Digital Bank License",
-                        website: "https://www.maribank.com",
-                        email: "hello@maribank.com"
-                    },
-                    {
-                        name: "Anext Bank",
-                        category: "digital-banks",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Wholesale digital bank backed by Ant Group, targeting SMEs",
-                        services: ["Business accounts", "SME lending", "Trade finance", "Treasury services"],
-                        target: "B2B SME",
-                        integration_timeline: "N/A - Wholesale license",
-                        partnership_model: "Not available for embedded services",
-                        mas_license: "Wholesale Digital Bank License",
-                        website: "https://www.anext.com.sg",
-                        email: "business@anext.com.sg"
-                    },
-                    {
-                        name: "GLDB (Green Link Digital Bank)",
-                        category: "digital-banks",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Wholesale digital bank focusing on trade finance and supply chain",
-                        services: ["Trade finance", "Supply chain finance", "Treasury services", "Fixed deposits"],
-                        target: "B2B Corporate",
-                        integration_timeline: "N/A - Wholesale license",
-                        partnership_model: "Not available for embedded services",
-                        mas_license: "Wholesale Digital Bank License",
-                        website: "https://www.glbank.com.sg",
-                        email: "info@gldb.com.sg"
-                    }
-                ]
-            },
-            
-            "Payments": {
-                icon: "💳",
-                providers: [
-                    {
-                        name: "Stripe",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Leading payment infrastructure platform with comprehensive APIs",
-                        services: ["Payment processing", "Subscription billing", "Connect platform", "Fraud detection"],
-                        target: "B2B (all sizes)",
-                        integration_timeline: "1-2 weeks",
-                        partnership_model: "2.9% + $0.30 per transaction",
-                        mas_license: "Major Payment Institution",
-                        website: "https://stripe.com/sg",
-                        email: "sg-sales@stripe.com"
-                    },
-                    {
-                        name: "Airwallex",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Global payments platform for cross-border transactions",
-                        services: ["Cross-border payments", "Multi-currency accounts", "FX services", "Virtual cards"],
-                        target: "B2B SME + Enterprise",
-                        integration_timeline: "2-4 weeks",
-                        partnership_model: "0.5-2% + FX spread",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.airwallex.com",
-                        email: "partnerships@airwallex.com"
-                    },
-                    {
-                        name: "2C2P",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Leading payment gateway in Southeast Asia",
-                        services: ["Payment gateway", "Card processing", "Alternative payments", "Fraud management"],
-                        target: "B2B E-commerce",
-                        integration_timeline: "3-4 weeks",
-                        partnership_model: "2.5-3.5% per transaction",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.2c2p.com",
-                        email: "sales@2c2p.com"
-                    },
-                    {
-                        name: "Nium",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Global payments infrastructure for real-time transactions",
-                        services: ["Cross-border payments", "Card issuance", "Wallets", "Payment APIs"],
-                        target: "B2B Fintech",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "SaaS + transaction fees",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.nium.com",
-                        email: "partnerships@nium.com"
-                    },
-                    {
-                        name: "Aspire",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "All-in-one business finance platform",
-                        services: ["Business payments", "Corporate cards", "Expense management"],
-                        target: "B2B SME",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "SaaS + revenue share",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.aspireapp.com",
-                        email: "partnerships@aspireapp.com"
-                    },
-                    {
-                        name: "Wise",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "International money transfer with transparent FX",
-                        services: ["Cross-border transfers", "Multi-currency accounts", "Business payments"],
-                        target: "B2C + B2B SME",
-                        integration_timeline: "2-3 weeks",
-                        partnership_model: "0.5-1% + FX spread",
-                        mas_license: "Major Payment Institution",
-                        website: "https://wise.com/sg",
-                        email: "platform@wise.com"
-                    },
-                    {
-                        name: "Thunes",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Cross-border payment infrastructure connecting to 7 billion mobile wallets",
-                        services: ["Cross-border payments", "Direct to mobile wallet", "B2B payments", "Payout APIs"],
-                        target: "B2B Platforms",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "Transaction-based fees",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.thunes.com",
-                        email: "partnerships@thunes.com"
-                    },
-                    {
-                        name: "Rapyd",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Fintech-as-a-service platform with global payment methods",
-                        services: ["Payment processing", "Wallets", "Disburse", "Collect", "Local payment methods"],
-                        target: "B2B Platforms",
-                        integration_timeline: "3-5 weeks",
-                        partnership_model: "Usage-based pricing",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.rapyd.net",
-                        email: "sales@rapyd.net"
-                    },
-                    {
-                        name: "Adyen",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "End-to-end payment platform for enterprise",
-                        services: ["Payment processing", "Point of sale", "Online payments", "Risk management"],
-                        target: "B2B Enterprise",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "Interchange++ pricing",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.adyen.com",
-                        email: "sales@adyen.com"
-                    },
-                    {
-                        name: "YouTrip",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Multi-currency wallet and travel card",
-                        services: ["Multi-currency wallet", "Travel card", "Currency exchange", "Perks"],
-                        target: "B2C Travelers",
-                        integration_timeline: "Not available for embedding",
-                        partnership_model: "Consumer product",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.you.co",
-                        email: "hello@you.co"
-                    },
-                    {
-                        name: "FOMO Pay",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Crypto payment gateway for merchants",
-                        services: ["Crypto payments", "Fiat conversion", "Payment gateway", "Wallet integration"],
-                        target: "B2B Merchants",
-                        integration_timeline: "2-4 weeks",
-                        partnership_model: "1-2% per transaction",
-                        mas_license: "DPT Service Provider",
-                        website: "https://fomopay.com",
-                        email: "business@fomopay.com"
-                    },
-                    {
-                        name: "Liquid Group",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Payment gateway with regional coverage",
-                        services: ["Payment gateway", "Alternative payments", "Tokenization", "Fraud screening"],
-                        target: "B2B E-commerce",
-                        integration_timeline: "3-4 weeks",
-                        partnership_model: "Transaction fees",
-                        mas_license: "Payment Institution",
-                        website: "https://liquid-group.com",
-                        email: "sales@liquid-group.com"
-                    },
-                    {
-                        name: "CardUp",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Pay any bill with credit card for points and cashback",
-                        services: ["Bill payments", "Rent payments", "Tax payments", "B2B payments"],
-                        target: "B2C + B2B SME",
-                        integration_timeline: "4-6 weeks partnership",
-                        partnership_model: "Transaction fee + revenue share",
-                        mas_license: "Major Payment Institution",
-                        website: "https://cardup.co",
-                        email: "business@cardup.co"
-                    },
-                    {
-                        name: "NETS",
-                        category: "payments",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Singapore's leading e-payment provider",
-                        services: ["QR payments", "Card payments", "E-wallet", "Payment terminals"],
-                        target: "B2B Merchants",
-                        integration_timeline: "4-8 weeks",
-                        partnership_model: "MDR-based fees",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.nets.com.sg",
-                        email: "business@nets.com.sg"
-                    },
-                    {
-                        name: "GrabPay",
-                        category: "payments",
-                        ecosystem_role: "Non-Financial Platforms (Distribution)",
-                        description: "E-wallet integrated into Grab super app",
-                        services: ["E-wallet", "QR payments", "In-app payments", "Merchant solutions"],
-                        target: "B2C + B2B Merchants",
-                        integration_timeline: "Partnership discussions",
-                        partnership_model: "Platform fees + revenue share",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.grab.com/sg/pay",
-                        email: "merchants@grab.com"
-                    },
-                    {
-                        name: "Fave",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Payments with integrated cashback and loyalty",
-                        services: ["Payment processing", "Cashback platform", "Loyalty programs", "Merchant tools"],
-                        target: "B2B F&B + Retail",
-                        integration_timeline: "2-4 weeks",
-                        partnership_model: "MDR + marketing fees",
-                        mas_license: "Payment Institution",
-                        website: "https://myfave.com",
-                        email: "merchants@myfave.com"
-                    },
-                    {
-                        name: "Pomelo",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Credit card issuer for young professionals",
-                        services: ["Credit cards", "Card issuance", "Credit underwriting", "Rewards program"],
-                        target: "B2C Young professionals",
-                        integration_timeline: "Not for embedding",
-                        partnership_model: "Consumer product",
-                        mas_license: "Credit Card License",
-                        website: "https://www.pomelo.com",
-                        email: "hello@pomelo.com"
-                    },
-                    {
-                        name: "Tazapay",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Cross-border payments with escrow for B2B marketplaces",
-                        services: ["Escrow payments", "Cross-border payments", "Payment orchestration", "Compliance"],
-                        target: "B2B Marketplaces",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "1.5-2.5% per transaction",
-                        mas_license: "Major Payment Institution",
-                        website: "https://www.tazapay.com",
-                        email: "sales@tazapay.com"
-                    },
-                    {
-                        name: "Fazz",
-                        category: "payments",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Payment infrastructure for Southeast Asia",
-                        services: ["Payment APIs", "Virtual accounts", "Disbursements", "Payment rails"],
-                        target: "B2B Fintech",
-                        integration_timeline: "3-5 weeks",
-                        partnership_model: "API pricing + transaction fees",
-                        mas_license: "Major Payment Institution",
-                        website: "https://fazz.com",
-                        email: "partnerships@fazz.com"
-                    },
-                    {
-                        name: "Qashier",
-                        category: "payments",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Smart POS system with integrated payments",
-                        services: ["POS system", "Payment processing", "Inventory management", "Business analytics"],
-                        target: "B2B SME Retail",
-                        integration_timeline: "Hardware + software setup",
-                        partnership_model: "Hardware + MDR fees",
-                        mas_license: "Payment Institution",
-                        website: "https://qashier.com",
-                        email: "hello@qashier.com"
-                    }
-                ]
-            },
-            
-            "BNPL": {
-                icon: "🔄",
-                providers: [
-                    {
-                        name: "Atome",
-                        category: "bnpl",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Asia's leading BNPL platform with 0% interest installments",
-                        services: ["BNPL", "3-installment plans", "Merchant integration", "White-label solutions"],
-                        target: "B2C + B2B Merchants",
-                        integration_timeline: "2-4 weeks",
-                        partnership_model: "4-6% MDR from merchants",
-                        mas_license: "Credit License",
-                        website: "https://www.atome.sg",
-                        email: "merchants@atome.sg"
-                    },
-                    {
-                        name: "Pace",
-                        category: "bnpl",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Enterprise BNPL for B2B commerce",
-                        services: ["B2B BNPL", "Trade credit", "Embedded financing", "White-label platform"],
-                        target: "B2B Enterprises",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "Revenue share on financing",
-                        mas_license: "Credit License",
-                        website: "https://www.pacenow.co",
-                        email: "partnerships@pacenow.co"
-                    },
-                    {
-                        name: "Split",
-                        category: "bnpl",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "BNPL solution with flexible installment plans",
-                        services: ["BNPL", "Installment payments", "Merchant tools", "Credit assessment"],
-                        target: "B2C + B2B",
-                        integration_timeline: "3-4 weeks",
-                        partnership_model: "4-5% MDR",
-                        mas_license: "Credit License",
-                        website: "https://www.splitt.sg",
-                        email: "business@splitt.sg"
-                    },
-                    {
-                        name: "Hoolah",
-                        category: "bnpl",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "BNPL for online and offline merchants",
-                        services: ["BNPL", "Interest-free installments", "POS integration", "E-commerce plugins"],
-                        target: "B2B Retail + E-commerce",
-                        integration_timeline: "2-3 weeks",
-                        partnership_model: "3-5% MDR",
-                        mas_license: "Credit License",
-                        website: "https://www.hoolah.co",
-                        email: "merchants@hoolah.co"
-                    },
-                    {
-                        name: "Grab PayLater",
-                        category: "bnpl",
-                        ecosystem_role: "Non-Financial Platforms (Distribution)",
-                        description: "BNPL integrated into Grab ecosystem",
-                        services: ["BNPL", "Installments", "Credit line", "In-app financing"],
-                        target: "B2C Grab users",
-                        integration_timeline: "Platform integration",
-                        partnership_model: "Grab merchant terms",
-                        mas_license: "Credit License",
-                        website: "https://www.grab.com/sg/pay",
-                        email: "merchants@grab.com"
-                    },
-                    {
-                        name: "Rely",
-                        category: "bnpl",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "BNPL for premium and lifestyle purchases",
-                        services: ["BNPL", "0% interest", "Premium merchant network", "Credit decisioning"],
-                        target: "B2C Affluent",
-                        integration_timeline: "3-4 weeks",
-                        partnership_model: "4-6% MDR",
-                        mas_license: "Credit License",
-                        website: "https://www.rely.sg",
-                        email: "merchants@rely.sg"
-                    },
-                    {
-                        name: "FavePay Later",
-                        category: "bnpl",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "BNPL integrated with Fave's cashback platform",
-                        services: ["BNPL", "Cashback + installments", "F&B focus", "Retail integration"],
-                        target: "B2C + B2B F&B",
-                        integration_timeline: "2-3 weeks",
-                        partnership_model: "Combined BNPL + cashback fees",
-                        mas_license: "Credit License",
-                        website: "https://myfave.com",
-                        email: "merchants@myfave.com"
-                    },
-                    {
-                        name: "Latitude",
-                        category: "bnpl",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "BNPL and consumer credit solutions",
-                        services: ["BNPL", "Consumer loans", "Merchant financing", "Credit cards"],
-                        target: "B2C + B2B",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "MDR + interest income",
-                        mas_license: "Credit License",
-                        website: "https://www.latitudepay.com",
-                        email: "business@latitudepay.com"
-                    }
-                ]
-            },
-            
-            "Lending": {
-                icon: "💰",
-                providers: [
-                    {
-                        name: "Funding Societies",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Southeast Asia's largest SME digital financing platform",
-                        services: ["Invoice financing", "Term loans", "Revenue-based financing", "Embedded lending"],
-                        target: "B2B SME",
-                        integration_timeline: "8-12 weeks white-label",
-                        partnership_model: "Revenue share 30-40%",
-                        mas_license: "CMS License",
-                        website: "https://fundingsocieties.com",
-                        email: "partnerships@fundingsocieties.com"
-                    },
-                    {
-                        name: "Validus",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Invoice financing for SMEs",
-                        services: ["Invoice financing", "Trade finance", "Working capital", "Supply chain finance"],
-                        target: "B2B SME",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "Revenue share or white-label",
-                        mas_license: "CMS License",
-                        website: "https://www.validus.sg",
-                        email: "business@validus.sg"
-                    },
-                    {
-                        name: "Flow",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital lending for consumer and SME loans",
-                        services: ["Personal loans", "Business loans", "Credit decisioning", "Loan management"],
-                        target: "B2C + B2B SME",
-                        integration_timeline: "10-12 weeks",
-                        partnership_model: "Revenue share on interest",
-                        mas_license: "Licensed Moneylender",
-                        website: "https://www.getflow.com",
-                        email: "info@getflow.com"
-                    },
-                    {
-                        name: "Capital Match",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "P2P lending platform for SMEs",
-                        services: ["Business term loans", "Invoice financing", "Trade finance", "Working capital"],
-                        target: "B2B SME",
-                        integration_timeline: "8-10 weeks",
-                        partnership_model: "Origination + servicing fees",
-                        mas_license: "CMS License",
-                        website: "https://www.capitalmatch.com",
-                        email: "info@capitalmatch.com"
-                    },
-                    {
-                        name: "MoolahSense",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "P2P lending for SME financing",
-                        services: ["Business loans", "Invoice financing", "Equipment financing", "Property loans"],
-                        target: "B2B SME",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "Platform fees + interest share",
-                        mas_license: "CMS License",
-                        website: "https://www.moolahsense.com",
-                        email: "hello@moolahsense.com"
-                    },
-                    {
-                        name: "Spenmo",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Business spend management with credit line",
-                        services: ["Corporate cards", "Credit line", "Expense management", "Bill payments"],
-                        target: "B2B SME",
-                        integration_timeline: "4-6 weeks onboarding",
-                        partnership_model: "SaaS + credit fees",
-                        mas_license: "Payment + Credit License",
-                        website: "https://spenmo.com",
-                        email: "hello@spenmo.com"
-                    },
-                    {
-                        name: "Helicap",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Supply chain finance and asset financing",
-                        services: ["Asset financing", "Supply chain finance", "Receivables financing", "Trade finance"],
-                        target: "B2B Corporates",
-                        integration_timeline: "8-12 weeks",
-                        partnership_model: "Financing fees",
-                        mas_license: "CMS License",
-                        website: "https://www.helicap.asia",
-                        email: "info@helicap.asia"
-                    },
-                    {
-                        name: "CapBridge",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Private credit and securities platform",
-                        services: ["Private credit", "Debt securities", "Equity crowdfunding", "Secondary trading"],
-                        target: "B2B Private companies",
-                        integration_timeline: "Partnership discussions",
-                        partnership_model: "Platform fees",
-                        mas_license: "CMS License",
-                        website: "https://www.capbridge.com",
-                        email: "info@capbridge.com"
-                    },
-                    {
-                        name: "iLex",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Litigation financing platform",
-                        services: ["Litigation financing", "Legal cost funding", "Case assessment", "Risk management"],
-                        target: "B2B Law firms + Corporates",
-                        integration_timeline: "Case-by-case",
-                        partnership_model: "Financing fees + success fees",
-                        mas_license: "Specialized License",
-                        website: "https://www.ilex.sg",
-                        email: "contact@ilex.sg"
-                    },
-                    {
-                        name: "Plenti",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Consumer lending platform",
-                        services: ["Personal loans", "Car loans", "Green loans", "Renewable energy financing"],
-                        target: "B2C",
-                        integration_timeline: "White-label discussions",
-                        partnership_model: "Interest share",
-                        mas_license: "Credit License",
-                        website: "https://www.plenti.com.au",
-                        email: "hello@plenti.com.au"
-                    },
-                    {
-                        name: "Bueno",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Consumer credit and loans",
-                        services: ["Personal loans", "Debt consolidation", "Quick approval", "Flexible terms"],
-                        target: "B2C",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "Interest income share",
-                        mas_license: "Licensed Moneylender",
-                        website: "https://www.buenocredit.com",
-                        email: "info@buenocredit.com"
-                    },
-                    {
-                        name: "Grubfin",
-                        category: "lending",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Working capital for e-commerce sellers",
-                        services: ["E-commerce financing", "Inventory financing", "Platform integration", "Revenue-based"],
-                        target: "B2B E-commerce sellers",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "Financing fees",
-                        mas_license: "Credit License",
-                        website: "https://www.grubfin.com",
-                        email: "hello@grubfin.com"
-                    }
-                ]
-            },
-            
-            "Insurance": {
-                icon: "🛡️",
-                providers: [
-                    {
-                        name: "Bolttech",
-                        category: "insurance",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Insurance technology platform for embedded insurance",
-                        services: ["Insurance APIs", "Device protection", "Travel insurance", "Embedded insurance"],
-                        target: "B2B E-commerce",
-                        integration_timeline: "8-12 weeks white-label",
-                        partnership_model: "Revenue share 20-40%",
-                        mas_license: "Insurance Broker",
-                        website: "https://www.bolttech.com",
-                        email: "partnerships@bolttech.com"
-                    },
-                    {
-                        name: "Covergo",
-                        category: "insurance",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Insurance-as-a-service platform",
-                        services: ["Insurance platform", "Product builder", "Policy admin", "Claims management"],
-                        target: "B2B Insurers",
-                        integration_timeline: "6-10 weeks",
-                        partnership_model: "SaaS license fees",
-                        mas_license: "Technology provider",
-                        website: "https://www.covergo.com",
-                        email: "sales@covergo.com"
-                    },
-                    {
-                        name: "PolicyPal",
-                        category: "insurance",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital insurance aggregator and platform",
-                        services: ["Insurance comparison", "Policy management", "Claims assistance", "Embedded insurance"],
-                        target: "B2C + B2B",
-                        integration_timeline: "3-4 weeks API",
-                        partnership_model: "Commission share 40-60%",
-                        mas_license: "Insurance Broker",
-                        website: "https://www.policypal.com",
-                        email: "partnerships@policypal.com"
-                    },
-                    {
-                        name: "Singlife",
-                        category: "insurance",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Digital life insurance company",
-                        services: ["Life insurance", "Savings plans", "Critical illness", "Embedded insurance"],
-                        target: "B2C",
-                        integration_timeline: "8-12 weeks",
-                        partnership_model: "Commission on premiums",
-                        mas_license: "Licensed Life Insurer",
-                        website: "https://singlife.com",
-                        email: "partnerships@singlife.com"
-                    },
-                    {
-                        name: "Igloo",
-                        category: "insurance",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Embedded insurance platform for digital platforms",
-                        services: ["Embedded insurance", "Microinsurance", "On-demand coverage", "Insurance APIs"],
-                        target: "B2B Platforms",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "Revenue share on premiums",
-                        mas_license: "Insurance Broker",
-                        website: "https://www.iglooinsure.com",
-                        email: "partnerships@iglooinsure.com"
-                    },
-                    {
-                        name: "FWD",
-                        category: "insurance",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Digital-first insurance company",
-                        services: ["Life insurance", "Health insurance", "Travel insurance", "Digital claims"],
-                        target: "B2C + B2B",
-                        integration_timeline: "Partnership discussions",
-                        partnership_model: "Commission structure",
-                        mas_license: "Licensed Insurer",
-                        website: "https://www.fwd.com.sg",
-                        email: "partnerships@fwd.com.sg"
-                    },
-                    {
-                        name: "Qoala",
-                        category: "insurance",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital insurance for Southeast Asia",
-                        services: ["Digital insurance", "Embedded insurance", "Claims automation", "API platform"],
-                        target: "B2C + B2B",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "Commission share",
-                        mas_license: "Insurance Broker",
-                        website: "https://www.qoala.com",
-                        email: "partnerships@qoala.com"
-                    },
-                    {
-                        name: "CXA Group",
-                        category: "insurance",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Employee benefits platform",
-                        services: ["Health benefits", "Flexible benefits", "Wellness platform", "Insurance admin"],
-                        target: "B2B HR",
-                        integration_timeline: "8-10 weeks",
-                        partnership_model: "Platform fees + premiums",
-                        mas_license: "Insurance Broker",
-                        website: "https://www.cxagroup.com",
-                        email: "hello@cxagroup.com"
-                    },
-                    {
-                        name: "GigaCover",
-                        category: "insurance",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "On-demand insurance for gig economy",
-                        services: ["On-demand insurance", "Usage-based", "Gig worker coverage", "Flexible plans"],
-                        target: "B2C Gig workers",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "Premium-based",
-                        mas_license: "Insurance Broker",
-                        website: "https://www.gigacover.com",
-                        email: "hello@gigacover.com"
-                    },
-                    {
-                        name: "Income",
-                        category: "insurance",
-                        ecosystem_role: "Incumbents/Banks (Foundation)",
-                        description: "Singapore's leading composite insurer with digital innovation",
-                        services: ["Life insurance", "General insurance", "Health insurance", "Digital products"],
-                        target: "B2C + B2B",
-                        integration_timeline: "Partnership discussions",
-                        partnership_model: "Commission structure",
-                        mas_license: "Licensed Insurer",
-                        website: "https://www.income.com.sg",
-                        email: "partnerships@income.com.sg"
-                    }
-                ]
-            },
-            
-            "Wealth": {
-                icon: "📈",
-                providers: [
-                    {
-                        name: "Endowus",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital wealth platform for CPF and cash investments",
-                        services: ["Robo-advisory", "CPF investment", "Fund platform", "Wealth APIs"],
-                        target: "B2C Mass Affluent",
-                        integration_timeline: "10-14 weeks white-label",
-                        partnership_model: "Revenue share 30-50% on AUM",
-                        mas_license: "CMS License",
-                        website: "https://endowus.com",
-                        email: "partnerships@endowus.com"
-                    },
-                    {
-                        name: "Syfe",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital investment platform with robo-advisory",
-                        services: ["Robo-advisory", "Managed portfolios", "Equity trading", "Wealth APIs"],
-                        target: "B2C Retail",
-                        integration_timeline: "8-12 weeks",
-                        partnership_model: "White-label or AUM share",
-                        mas_license: "CMS License",
-                        website: "https://www.syfe.com",
-                        email: "partnerships@syfe.com"
-                    },
-                    {
-                        name: "StashAway",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital wealth manager with goal-based investing",
-                        services: ["Robo-advisory", "Goal-based investing", "Portfolio management"],
-                        target: "B2C Mass market",
-                        integration_timeline: "12-16 weeks",
-                        partnership_model: "Revenue share on fees",
-                        mas_license: "CMS License",
-                        website: "https://www.stashaway.sg",
-                        email: "partnerships@stashaway.sg"
-                    },
-                    {
-                        name: "Bambu",
-                        category: "wealth",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "B2B robo-advisory platform",
-                        services: ["White-label robo", "Portfolio engine", "Wealth APIs", "Investment platform"],
-                        target: "B2B Banks + Fintechs",
-                        integration_timeline: "10-16 weeks",
-                        partnership_model: "SaaS + per-user fees",
-                        mas_license: "Technology provider",
-                        website: "https://www.bambu.co",
-                        email: "sales@bambu.co"
-                    },
-                    {
-                        name: "Qapita",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Equity management platform",
-                        services: ["Cap table", "ESOP admin", "Valuations", "Secondary trading"],
-                        target: "B2B Startups",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "SaaS subscription",
-                        mas_license: "Exempt CMS",
-                        website: "https://qapita.com",
-                        email: "sales@qapita.com"
-                    },
-                    {
-                        name: "ADDX",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital securities exchange for private markets",
-                        services: ["Digital securities", "Private equity", "Real estate", "Structured products"],
-                        target: "B2C Accredited investors",
-                        integration_timeline: "Partnership discussions",
-                        partnership_model: "Transaction + management fees",
-                        mas_license: "Recognized Market Operator",
-                        website: "https://addx.co",
-                        email: "hello@addx.co"
-                    },
-                    {
-                        name: "Tiger Brokers",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Online brokerage platform",
-                        services: ["Stock trading", "Options", "US markets", "IPO access"],
-                        target: "B2C Retail investors",
-                        integration_timeline: "Not for embedding",
-                        partnership_model: "Trading commissions",
-                        mas_license: "CMS License",
-                        website: "https://www.tigerbrokers.com.sg",
-                        email: "cs@itiger.com"
-                    },
-                    {
-                        name: "MoneyOwl",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Social enterprise for unbiased financial advisory",
-                        services: ["Financial advisory", "Insurance planning", "Investment advice", "Retirement planning"],
-                        target: "B2C Mass market",
-                        integration_timeline: "Advisory partnership",
-                        partnership_model: "Advisory fees",
-                        mas_license: "Financial Adviser",
-                        website: "https://www.moneyowl.com.sg",
-                        email: "hello@moneyowl.com.sg"
-                    },
-                    {
-                        name: "Kristal.AI",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "AI-powered wealth management",
-                        services: ["Robo-advisory", "AI portfolio", "Goal planning", "Tax optimization"],
-                        target: "B2C Affluent",
-                        integration_timeline: "8-10 weeks",
-                        partnership_model: "AUM-based fees",
-                        mas_license: "CMS License",
-                        website: "https://www.kristal.ai",
-                        email: "hello@kristal.ai"
-                    },
-                    {
-                        name: "FSMOne",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Investment platform with funds, bonds, and stocks",
-                        services: ["Fund platform", "Bond trading", "Stock trading", "Portfolio tools"],
-                        target: "B2C Investors",
-                        integration_timeline: "Platform partnership",
-                        partnership_model: "Transaction fees",
-                        mas_license: "CMS License",
-                        website: "https://secure.fundsupermart.com",
-                        email: "fsmone@ifastfinancial.com"
-                    },
-                    {
-                        name: "iSTOX",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Digital securities exchange",
-                        services: ["Digital securities", "Tokenization", "Private markets", "Secondary trading"],
-                        target: "B2B + B2C Accredited",
-                        integration_timeline: "Partnership discussions",
-                        partnership_model: "Platform + transaction fees",
-                        mas_license: "Recognized Market Operator",
-                        website: "https://www.istox.com",
-                        email: "info@istox.com"
-                    },
-                    {
-                        name: "Fundnel",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Private markets access platform",
-                        services: ["Private equity", "Startups", "Real estate", "Alternative investments"],
-                        target: "B2C Accredited investors",
-                        integration_timeline: "Platform partnership",
-                        partnership_model: "Success fees",
-                        mas_license: "CMS License",
-                        website: "https://www.fundnel.com",
-                        email: "hello@fundnel.com"
-                    },
-                    {
-                        name: "Canopy",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Family office technology platform",
-                        services: ["Portfolio management", "Consolidated reporting", "Family office tools", "Multi-asset"],
-                        target: "B2B Family offices",
-                        integration_timeline: "Enterprise implementation",
-                        partnership_model: "Platform licensing",
-                        mas_license: "Technology provider",
-                        website: "https://www.canopy.cloud",
-                        email: "hello@canopy.cloud"
-                    },
-                    {
-                        name: "Smartkarma",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "Investment research platform",
-                        services: ["Research insights", "Independent analysis", "Investment ideas", "Market intelligence"],
-                        target: "B2B Institutional",
-                        integration_timeline: "Platform subscription",
-                        partnership_model: "Subscription fees",
-                        mas_license: "Information provider",
-                        website: "https://www.smartkarma.com",
-                        email: "hello@smartkarma.com"
-                    },
-                    {
-                        name: "Noviscient",
-                        category: "wealth",
-                        ecosystem_role: "Fintech Specialists (Innovations)",
-                        description: "AI-powered wealth management",
-                        services: ["AI portfolio management", "Quantitative strategies", "Risk management", "Wealth tech"],
-                        target: "B2B Wealth managers",
-                        integration_timeline: "Platform integration",
-                        partnership_model: "Technology licensing",
-                        mas_license: "CMS License",
-                        website: "https://www.noviscient.com",
-                        email: "info@noviscient.com"
-                    }
-                ]
-            },
-            
-            "Infrastructure": {
-                icon: "🔧",
-                providers: [
-                    {
-                        name: "CredoLab",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "Alternative credit scoring using behavioral data",
-                        services: ["Credit scoring", "Alternative data", "Fraud detection", "Identity verification"],
-                        target: "B2B Lenders",
-                        integration_timeline: "2-3 weeks API",
-                        partnership_model: "Per-query pricing",
-                        mas_license: "Data provider",
-                        website: "https://www.credolab.com",
-                        email: "partnerships@credolab.com"
-                    },
-                    {
-                        name: "Sumsub",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "KYC/AML verification platform",
-                        services: ["Identity verification", "KYC/AML", "Document verification", "Biometrics"],
-                        target: "B2B All industries",
-                        integration_timeline: "1-2 weeks API",
-                        partnership_model: "$0.50-$3 per verification",
-                        mas_license: "Verification provider",
-                        website: "https://sumsub.com",
-                        email: "sales@sumsub.com"
-                    },
-                    {
-                        name: "Jumio",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "AI-powered identity verification",
-                        services: ["Identity verification", "Document verification", "Biometric auth", "AML screening"],
-                        target: "B2B Financial services",
-                        integration_timeline: "2-3 weeks",
-                        partnership_model: "Per-transaction pricing",
-                        mas_license: "Verification provider",
-                        website: "https://www.jumio.com",
-                        email: "sales@jumio.com"
-                    },
-                    {
-                        name: "TrustingSocial",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "AI credit scoring with alternative data",
-                        services: ["Credit scoring", "Alternative data", "Fraud detection", "Risk APIs"],
-                        target: "B2B Lenders",
-                        integration_timeline: "3-4 weeks",
-                        partnership_model: "Per-query subscription",
-                        mas_license: "Data provider",
-                        website: "https://trustingsocial.com",
-                        email: "contact@trustingsocial.com"
-                    },
-                    {
-                        name: "FinBots.ai",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "AI compliance automation",
-                        services: ["Compliance automation", "Regulatory reporting", "AML monitoring", "RegTech APIs"],
-                        target: "B2B Financial institutions",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "SaaS subscription",
-                        mas_license: "Technology provider",
-                        website: "https://finbots.ai",
-                        email: "sales@finbots.ai"
-                    },
-                    {
-                        name: "Mambu",
-                        category: "infrastructure",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "SaaS core banking platform",
-                        services: ["Core banking", "Loan management", "Deposit accounts", "Banking APIs"],
-                        target: "B2B Banks + Fintechs",
-                        integration_timeline: "12-20 weeks",
-                        partnership_model: "SaaS subscription",
-                        mas_license: "Technology provider",
-                        website: "https://www.mambu.com",
-                        email: "sales@mambu.com"
-                    },
-                    {
-                        name: "Thought Machine",
-                        category: "infrastructure",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Cloud-native core banking",
-                        services: ["Core banking", "Vault engine", "Banking APIs", "Product config"],
-                        target: "B2B Banks",
-                        integration_timeline: "16-24 weeks",
-                        partnership_model: "Enterprise licensing",
-                        mas_license: "Technology provider",
-                        website: "https://thoughtmachine.net",
-                        email: "sales@thoughtmachine.net"
-                    },
-                    {
-                        name: "HolyWally",
-                        category: "infrastructure",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Banking-as-a-service platform",
-                        services: ["BaaS platform", "Account opening", "Card issuance", "Payment processing"],
-                        target: "B2B Non-banks",
-                        integration_timeline: "8-12 weeks",
-                        partnership_model: "Revenue share + platform fees",
-                        mas_license: "Major Payment Institution",
-                        website: "https://hollywally.com",
-                        email: "partnerships@hollywally.com"
-                    },
-                    {
-                        name: "Tookitaki",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "AML/CFT compliance platform",
-                        services: ["AML monitoring", "Transaction screening", "Sanctions screening", "Compliance automation"],
-                        target: "B2B Financial institutions",
-                        integration_timeline: "8-12 weeks",
-                        partnership_model: "SaaS subscription",
-                        mas_license: "RegTech provider",
-                        website: "https://www.tookitaki.com",
-                        email: "hello@tookitaki.com"
-                    },
-                    {
-                        name: "Cynopsis",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "Compliance and KYC platform",
-                        services: ["KYC automation", "Compliance management", "Ongoing monitoring", "Risk assessment"],
-                        target: "B2B Financial services",
-                        integration_timeline: "6-8 weeks",
-                        partnership_model: "Platform subscription",
-                        mas_license: "RegTech provider",
-                        website: "https://cynopsis-solutions.com",
-                        email: "info@cynopsis-solutions.com"
-                    },
-                    {
-                        name: "Comply Advantage",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "Financial crime detection",
-                        services: ["AML screening", "Sanctions screening", "PEP screening", "Adverse media"],
-                        target: "B2B All industries",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "Per-check + subscription",
-                        mas_license: "Data provider",
-                        website: "https://complyadvantage.com",
-                        email: "info@complyadvantage.com"
-                    },
-                    {
-                        name: "Elliptic",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "Crypto compliance and blockchain analytics",
-                        services: ["Blockchain analytics", "Crypto screening", "Transaction monitoring", "Compliance"],
-                        target: "B2B Crypto businesses",
-                        integration_timeline: "3-5 weeks",
-                        partnership_model: "API + subscription",
-                        mas_license: "Data provider",
-                        website: "https://www.elliptic.co",
-                        email: "info@elliptic.co"
-                    },
-                    {
-                        name: "Chainalysis",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "Blockchain data platform",
-                        services: ["Blockchain analytics", "Compliance tools", "Investigation tools", "Risk assessment"],
-                        target: "B2B Crypto + Government",
-                        integration_timeline: "4-6 weeks",
-                        partnership_model: "Enterprise licensing",
-                        mas_license: "Data provider",
-                        website: "https://www.chainalysis.com",
-                        email: "info@chainalysis.com"
-                    },
-                    {
-                        name: "Flagright",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "No-code AML compliance",
-                        services: ["Transaction monitoring", "AML compliance", "No-code rules", "Case management"],
-                        target: "B2B Fintechs",
-                        integration_timeline: "2-4 weeks",
-                        partnership_model: "Usage-based pricing",
-                        mas_license: "RegTech provider",
-                        website: "https://www.flagright.com",
-                        email: "hello@flagright.com"
-                    },
-                    {
-                        name: "HAWK",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "AI-powered AML monitoring",
-                        services: ["AML monitoring", "Fraud detection", "Compliance automation", "Risk scoring"],
-                        target: "B2B Financial institutions",
-                        integration_timeline: "8-12 weeks",
-                        partnership_model: "Enterprise licensing",
-                        mas_license: "RegTech provider",
-                        website: "https://www.hawk.ai",
-                        email: "info@hawk.ai"
-                    },
-                    {
-                        name: "Backbase",
-                        category: "infrastructure",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Digital banking platform",
-                        services: ["Digital banking frontend", "Customer experience", "Omnichannel banking", "APIs"],
-                        target: "B2B Banks",
-                        integration_timeline: "16-24 weeks",
-                        partnership_model: "Platform licensing",
-                        mas_license: "Technology provider",
-                        website: "https://www.backbase.com",
-                        email: "info@backbase.com"
-                    },
-                    {
-                        name: "Temenos",
-                        category: "infrastructure",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Banking software provider",
-                        services: ["Core banking", "Digital banking", "Payments", "Wealth management"],
-                        target: "B2B Banks",
-                        integration_timeline: "20-32 weeks",
-                        partnership_model: "Enterprise licensing",
-                        mas_license: "Technology provider",
-                        website: "https://www.temenos.com",
-                        email: "info@temenos.com"
-                    },
-                    {
-                        name: "Finastra",
-                        category: "infrastructure",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Financial software solutions",
-                        services: ["Core banking", "Lending", "Payments", "Treasury"],
-                        target: "B2B Financial institutions",
-                        integration_timeline: "24-36 weeks",
-                        partnership_model: "Software licensing",
-                        mas_license: "Technology provider",
-                        website: "https://www.finastra.com",
-                        email: "info@finastra.com"
-                    },
-                    {
-                        name: "Avaloq",
-                        category: "infrastructure",
-                        ecosystem_role: "BaaS/PaaS Platforms (Enablers)",
-                        description: "Wealth management platform",
-                        services: ["Wealth management", "Core banking", "Digital banking", "APIs"],
-                        target: "B2B Wealth managers",
-                        integration_timeline: "24-40 weeks",
-                        partnership_model: "Platform licensing",
-                        mas_license: "Technology provider",
-                        website: "https://www.avaloq.com",
-                        email: "info@avaloq.com"
-                    },
-                    {
-                        name: "Finverse",
-                        category: "infrastructure",
-                        ecosystem_role: "RegTech/Infrastructure (Support)",
-                        description: "Open finance and data aggregation APIs",
-                        services: ["Open banking APIs", "Account aggregation", "Payment initiation", "Data enrichment"],
-                        target: "B2B Fintechs",
-                        integration_timeline: "3-5 weeks",
-                        partnership_model: "API pricing",
-                        mas_license: "Data provider",
-                        website: "https://www.finverse.com",
-                        email: "hello@finverse.com"
-                    }
-                ]
-            }
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1fWV5JtLA9pXp-7Uzk8GCko_54bTUgOJhanSmmQn2Jg1L6ksLHBVCqK0pg4J_az22/exec';
+        
+        // Category icons and display names
+        const categoryConfig = {
+            'digital-banks': { icon: '🏦', name: 'Digital Banks' },
+            'payments': { icon: '💳', name: 'Payments' },
+            'bnpl': { icon: '🔄', name: 'BNPL' },
+            'lending': { icon: '💰', name: 'Lending' },
+            'insurance': { icon: '🛡️', name: 'Insurance' },
+            'wealth': { icon: '📈', name: 'Wealth' },
+            'infrastructure': { icon: '🔧', name: 'Infrastructure' }
         };
 
-        // Initialize
-        function init() {
-            generateProviderSections();
+        let allProviders = [];
+        let categorizedProviders = {};
+
+        // Load providers from Google Sheets
+        async function loadProviders() {
+            try {
+                const response = await fetch(SCRIPT_URL + '?action=getProviders');
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.providers) {
+                    allProviders = data.providers;
+                    categorizeProviders();
+                    renderContent();
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                } else {
+                    throw new Error('Failed to load providers');
+                }
+            } catch (error) {
+                console.error('Error loading providers:', error);
+                document.getElementById('loadingIndicator').innerHTML = `
+                    <div class="error-message">
+                        <h3>⚠️ Unable to load provider database</h3>
+                        <p>Please check your internet connection and try refreshing the page.</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function categorizeProviders() {
+            categorizedProviders = {};
+            
+            allProviders.forEach(provider => {
+                const category = provider.category || 'other';
+                if (!categorizedProviders[category]) {
+                    categorizedProviders[category] = [];
+                }
+                categorizedProviders[category].push(provider);
+            });
+        }
+
+        function renderContent() {
+            renderStats();
+            renderFilterButtons();
+            renderProviderSections();
             setupSearch();
         }
 
-        function generateProviderSections() {
+        function renderStats() {
+            const totalProviders = allProviders.length;
+            const totalCategories = Object.keys(categorizedProviders).length;
+            
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-item">
+                    <span class="stat-number">${totalProviders}</span>
+                    <span>Providers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${totalCategories}</span>
+                    <span>Categories</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">520</span>
+                    <span>Total Singapore Fintech</span>
+                </div>
+            `;
+        }
+
+        function renderFilterButtons() {
+            const buttons = document.getElementById('filterButtons');
+            let html = '<button class="filter-btn active" onclick="filterByCategory(\'all\')">All Providers</button>';
+            
+            for (const [category, providers] of Object.entries(categorizedProviders)) {
+                const config = categoryConfig[category] || { icon: '📁', name: category };
+                html += `<button class="filter-btn" onclick="filterByCategory('${category}')">${config.name} (${providers.length})</button>`;
+            }
+            
+            buttons.innerHTML = html;
+        }
+
+        function renderProviderSections() {
             const container = document.getElementById('providerSections');
             container.innerHTML = '';
             
-            for (const [categoryName, categoryData] of Object.entries(providerDatabase)) {
+            for (const [category, providers] of Object.entries(categorizedProviders)) {
+                const config = categoryConfig[category] || { icon: '📁', name: category };
+                
                 const section = document.createElement('div');
                 section.className = 'category-section';
-                section.dataset.category = categoryData.providers[0].category;
+                section.dataset.category = category;
                 
                 section.innerHTML = `
                     <div class="category-header">
-                        <span class="category-icon">${categoryData.icon}</span>
-                        <h2 class="category-title">${categoryName}</h2>
-                        <span class="category-count">${categoryData.providers.length}</span>
+                        <span class="category-icon">${config.icon}</span>
+                        <h2 class="category-title">${config.name}</h2>
+                        <span class="category-count">${providers.length}</span>
                     </div>
                     <div class="provider-grid">
-                        ${categoryData.providers.map(provider => `
-                            <div class="provider-card" onclick='showProviderDetails(${JSON.stringify(provider).replace(/'/g, "&#39;")})'>
-                                <div class="provider-category">${provider.ecosystem_role}</div>
-                                <div class="provider-name">${provider.name}</div>
-                                <div class="provider-description">${provider.description}</div>
-                                <div class="provider-tags">
-                                    ${provider.target ? `<span class="provider-tag">${provider.target}</span>` : ''}
-                                    <span class="provider-tag">${provider.mas_license}</span>
-                                </div>
-                            </div>
-                        `).join('')}
+                        ${providers.map(provider => createProviderCard(provider)).join('')}
                     </div>
                 `;
                 
@@ -1733,39 +635,67 @@
             }
         }
 
+        function createProviderCard(provider) {
+            const services = Array.isArray(provider.services) ? provider.services : 
+                            (provider.services ? provider.services.split(',').map(s => s.trim()) : []);
+            
+            return `
+                <div class="provider-card" onclick='showProviderDetails(${JSON.stringify(provider).replace(/'/g, "&#39;")})'>
+                    <div class="provider-category">${provider.ecosystem_role || provider.category}</div>
+                    <div class="provider-name">${provider.name}</div>
+                    <div class="provider-description">${provider.description || ''}</div>
+                    <div class="provider-tags">
+                        ${provider.target ? `<span class="provider-tag">${provider.target}</span>` : ''}
+                        ${provider.mas_license ? `<span class="provider-tag">${provider.mas_license}</span>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
         function showProviderDetails(provider) {
             const modal = document.getElementById('providerModal');
             const content = document.getElementById('modalContent');
             
+            const services = Array.isArray(provider.services) ? provider.services : 
+                            (provider.services ? provider.services.split(',').map(s => s.trim()) : []);
+            
             content.innerHTML = `
                 <div class="modal-header">
                     <div class="modal-provider-name">${provider.name}</div>
-                    <div class="provider-category">${provider.ecosystem_role}</div>
+                    <div class="provider-category">${provider.ecosystem_role || provider.category}</div>
                 </div>
                 
+                ${provider.description ? `
                 <div class="modal-section">
                     <div class="modal-section-title">Overview</div>
                     <div class="modal-section-content">${provider.description}</div>
                 </div>
+                ` : ''}
                 
+                ${services.length > 0 ? `
                 <div class="modal-section">
                     <div class="modal-section-title">Services Offered</div>
                     <div class="modal-section-content">
                         <ul style="margin-left: 20px;">
-                            ${provider.services.map(s => `<li>${s}</li>`).join('')}
+                            ${services.map(s => `<li>${s}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
+                ` : ''}
                 
+                ${provider.target ? `
                 <div class="modal-section">
                     <div class="modal-section-title">Target Customers</div>
                     <div class="modal-section-content">${provider.target}</div>
                 </div>
+                ` : ''}
                 
+                ${provider.partnership_model ? `
                 <div class="modal-section">
                     <div class="modal-section-title">Partnership Model</div>
                     <div class="modal-section-content">${provider.partnership_model}</div>
                 </div>
+                ` : ''}
                 
                 ${provider.integration_timeline ? `
                 <div class="modal-section">
@@ -1774,10 +704,19 @@
                 </div>
                 ` : ''}
                 
+                ${provider.mas_license ? `
                 <div class="modal-section">
                     <div class="modal-section-title">MAS Licensing</div>
                     <div class="modal-section-content">${provider.mas_license}</div>
                 </div>
+                ` : ''}
+                
+                ${provider.funding ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">Recent Funding/Metrics</div>
+                    <div class="modal-section-content">${provider.funding}</div>
+                </div>
+                ` : ''}
                 
                 <div class="contact-info">
                     <div class="modal-section-title">Contact Information</div>
@@ -1819,14 +758,12 @@
                 timestamp: new Date().toISOString()
             };
             
-            if (SCRIPT_URL && SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-                fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-            }
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
             
             document.getElementById('suggestForm').style.display = 'none';
             document.getElementById('suggestionSuccess').style.display = 'block';
@@ -1867,14 +804,16 @@
         }
 
         function shareToLinkedIn() {
-            const text = "Exploring Singapore's Embedded Finance Ecosystem 🗺️\n\nComprehensive directory of 100+ fintech providers for embedded payments, lending, insurance, and wealth services. Great resource from SMU Executive Development Programme!\n\n@SMU Executive Development @Joanna Teo\n\n#EmbeddedFinance #Fintech #Singapore #DigitalTransformation";
+            const text = "Exploring Singapore's Embedded Finance Ecosystem 🗺️\n\nComprehensive directory of fintech providers for embedded payments, lending, insurance, and wealth services. Great resource from SMU Executive Development Programme!\n\n@SMU Executive Development @Joanna Teo\n\n#EmbeddedFinance #Fintech #Singapore #DigitalTransformation";
             
             const linkedInUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(text)}`;
             window.open(linkedInUrl, '_blank', 'width=600,height=700');
         }
 
-        window.onload = init;
+        // Initialize on load
+        window.onload = loadProviders;
         
+        // Close modals when clicking outside
         document.getElementById('providerModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
